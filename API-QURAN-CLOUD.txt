@@ -1,0 +1,289 @@
+
+
+‎
+‎بِسْمِ ٱللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+‎
+‎
+‎https://alquran.cloud/api
+‎
+‎Quran API Documentation
+‎The following endpoints are supported by the Quran API. They all support the HTTP GET method and return JSON.
+‎
+‎---------------
+‎
+‎GET Edition - Available text and audio editions
+‎
+‎All these endpoints give you a JSON object describing an edition. From this object, you need to use the identifier to get data from other endpoints in this API. For any of the endpoints that require an edition identifier, if you do not specify one, 'quran-uthmani' is used and returns the Arabic text of the Holy Quran.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/edition
+‎Lists all available editions. You can filter the results using the parameters below.
+‎
+‎Parameters
+‎format - Specify a format. 'text' or 'audio
+‎language - A 2 digit language code. Example: 'en', 'fr', etc.
+‎type - A valid type. Example - 'versebyverse', 'translation' etc.
+‎http://api.alquran.cloud/v1/edition - Lists all editions
+‎http://api.alquran.cloud/v1/edition?format=audio&language=fr&type=versebyverse - Lists all audio editions in french of the versebyverse type
+‎
+‎2. http://api.alquran.cloud/v1/edition/language
+‎Lists all languages in which editions are available
+‎http://api.alquran.cloud/v1/language
+‎
+‎3. http://api.alquran.cloud/v1/edition/language/{{language}}
+‎Lists all editions for a given language
+‎{{language}} is a 2 digit language code. Example: en for English, fr for French, ar for Arabic
+‎http://api.alquran.cloud/v1/language/en
+‎
+‎4. http://api.alquran.cloud/v1/edition/type
+‎Lists all types of editions
+‎http://api.alquran.cloud/v1/type
+‎
+‎5. http://api.alquran.cloud/v1/edition/type/{{type}}
+‎Lists all editions for a given type
+‎{{type}} can be 'translation', 'tafsir' or another result returned in 4 above
+‎http://api.alquran.cloud/v1/type/translation
+‎
+‎6. http://api.alquran.cloud/v1/edition/format
+‎Lists all formats
+‎http://api.alquran.cloud/v1/format
+‎
+‎7. http://api.alquran.cloud/v1/edition/format/{{format}
+‎Lists all editions for a given format
+‎{{format}} can be 'audio' or 'text'
+‎http://api.alquran.cloud/v1/format/text
+‎
+‎---------------
+‎
+‎GET Quran - Get a complete Quran edition
+‎NOTE that audio and text edition responses differ. See examples for the response.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/quran/{{edition}}
+‎Returns a complete Quran edition in the audio or text format
+‎
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎http://api.alquran.cloud/v1/quran/en.asad - (Text) Returns Muhammad Asad's translation of the Holy Quran
+‎http://api.alquran.cloud/v1/quran/quran-uthmani - (Text) Returns the text of the Holy Quran
+‎http://api.alquran.cloud/v1/quran/ar.alafasy - (Audio) Returns Mishary Alafasy's recitation of the Quran
+‎
+‎---------------
+‎
+‎GET Juz - Get a Juz of the Quran
+‎The Quran has 30 Juz. You can get the text for each Juz using the endpoint below.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/juz/{{juz}}/{{edition}}
+‎Returns the requested juz from a particular edition
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎
+‎Optional Parameters:
+‎offset - Offset ayahs in a juz by the given number
+‎limit - This is the number of ayahs that the response will be limited to.
+‎
+‎http://api.alquran.cloud/v1/juz/30/en.asad - Returns Juz 30 from Muhammad Asad's translation of the Holy Quran
+‎http://api.alquran.cloud/v1/juz/30/quran-uthmani - Returns the text of Juz 30 of the Holy Quran
+‎http://api.alquran.cloud/v1/juz/1/quran-uthmani?offset=3&limit=10 - Returns the the ayahs 4-13 from Juz 1
+‎
+‎---------------
+‎
+‎GET Surah - Get a Surah of the Quran
+‎The Quran has 114 Surahs. You can get a list of all of them or all the ayahs for a particular surah using the endpoints below.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/surah
+‎Returns the list of Surahs in the Quran
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation Optional Parameters:
+‎offset - Offset ayahs in a juz by the given number
+‎limit - This is the number of ayahs that the response will be limited to.
+‎http://api.alquran.cloud/v1/surah
+‎
+‎2. http://api.alquran.cloud/v1/surah/{{surah}}/{{edition}}
+‎Returns the requested surah from a particular edition
+‎
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎
+‎http://api.alquran.cloud/v1/surah/114/en.asad - Returns Surat An-Naas from Muhammad Asad's translation of the Holy Quran
+‎http://api.alquran.cloud/v1/surah/114/ar.alafasy - Returns Mishary Alafasy's recitation of Surat An-Naas
+‎http://api.alquran.cloud/v1/surah/114 - Returns Arabic text of Surat An-Naas
+‎http://api.alquran.cloud/v1/surah/1?offset=1&limit=3 - Returns verses 2-4 of Surah Al-Fatiha
+‎
+‎3. http://api.alquran.cloud/v1/surah/{{surah}}/editions/{{edition}},{{edition}}
+‎Returns the requested surah from multiple editions
+‎
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation. You can specify multiple identifiers separated by a comma.
+‎http://api.alquran.cloud/v1/surah/114/editions/quran-uthmani,en.asad,en.pickthall - Returns Surat An-Naas from 3 editions: Simple Quran, Muhammad Asad and Marmaduke Pickthall
+‎
+‎---------------
+‎
+‎GET Ayah - Get an Ayah of the Quran
+‎The Quran contains 6236 verses. With this endpoint, you can retrieve any of those verses.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/ayah/{{reference}}/{{edition}}
+‎Returns an ayah for a given edition.
+‎
+‎{{reference}} here can be the ayah number or the surah:ayah. For instance, 262 or 2:255 will both get you Ayat Al Kursi
+‎
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎http://api.alquran.cloud/v1/ayah/262/en.asad - (Text) Returns Muhammad Asad's translation Ayat Al Kursi
+‎http://api.alquran.cloud/v1/ayah/2:255/en.asad - (Text) Returns Muhammad Asad's translation Ayat Al Kursi
+‎http://api.alquran.cloud/v1/ayah/262/ar.alafasy - (Audio) Returns Mishary Alafasy's recitation of the Ayat Al Kursi
+‎http://api.alquran.cloud/v1/ayah/262 - (Text) Returns the Arabic text of Ayat Al Kursi
+‎
+‎2. http://api.alquran.cloud/v1/ayah/{{reference}}/editions/{{edition}},{{edition}}
+‎Returns an ayah for multiple edtitions.
+‎
+‎{{reference}} here can be the ayah number or the surah:ayah. For instance, 262 or 2:255 will both get you Ayat Al Kursi
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation. You can specify multiple editions separated by a comma
+‎http://api.alquran.cloud/v1/ayah/262/editions/quran-uthmani,en.asad,en.pickthall - (Text) Returns Ayat Al Kursi from 3 editions: Simple Quran, Muhammad Asad and Maramduke Pickthall
+‎
+‎---------------
+‎
+‎GET Search - Search the text of the Quran
+‎Please note that only text editions of the Quran are searchable.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/search/{{keyword}}/{{surah}}/{{edition or language}}
+‎Returns ayahs that match a keyword in a given edition or language. If you do not specify an edition or language, all english language texts are searched.
+‎
+‎{{surah}} Enter a surah number (between 1 and 114) to search a specific surah or 'all' to search all the text {{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎{language} is 2 digit alpha language code.
+‎
+‎Example: en for English, fr for french
+‎http://api.alquran.cloud/v1/search/Abraham/all/en - (Text) Returns all ayahs that contain the word 'Abraham' in all the english editions
+‎http://api.alquran.cloud/v1/search/Abraham/all/en.pickthall - (Text) Returns all ayahs that contain the word 'Abraham' in Maramduke Pickthall's English translation
+‎http://api.alquran.cloud/v1/search/Abraham/37/en.pickthall - (Text) Returns all ayahs that contain the word 'Abraham' Surat As-Saafaat in Maramduke Pickthall's English translation
+‎
+‎---------------
+‎
+‎GET Page - Get a Page of the Quran
+‎The Quran is traditionally printed / written on 604 pages. You can get the text for each page using the endpoint below.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/page/{{page}}/{{edition}}
+‎Returns the requested page from a particular edition
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎
+‎Optional Parameters:
+‎offset - Offset ayahs in a page by the given number
+‎limit - This is the number of ayahs that the response will be limited to.
+‎http://api.alquran.cloud/v1/page/1/en.asad - Returns page 1 from Muhammad Asad's translation of the Holy Quran
+‎http://api.alquran.cloud/v1/page/1/quran-uthmani - Returns the text of page 1 of the Holy Quran
+‎http://api.alquran.cloud/v1/page/1/quran-uthmani?offset=2&limit=2 - Returns the the ayahs 3-4 from page 1
+‎
+‎---------------
+‎
+‎GET Manzil - Get a Manzil of the Quran
+‎
+‎The Quran has 7 Manzils (for those who want to read / recite it over one week). You can get the text for each Manzil using the endpoint below.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎1. http://api.alquran.cloud/v1/manzil/{{manzil}}/{{edition}}
+‎Returns the requested manzil from a particular edition
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎
+‎Optional Parameters:
+‎offset - Offset ayahs in a manzil by the given number
+‎limit - This is the number of ayahs that the response will be limited to.
+‎http://api.alquran.cloud/v1/manzil/7/en.asad - Returns manzil 7 from Muhammad Asad's translation of the Holy Quran
+‎http://api.alquran.cloud/v1/manzil/7/quran-uthmani - Returns the text of Manzil 7 of the Holy Quran
+‎http://api.alquran.cloud/v1/manzil/7/quran-uthmani?offset=3&limit=10 - Returns the the ayahs 4-13 from Manzil 7
+‎
+‎---------------
+‎
+‎GET Ruku - Get a Ruku of the Quran
+‎The Quran has 556 Rukus. You can get the text for each Ruku using the endpoint below.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/ruku/{{ruku}}/{{edition}}
+‎Returns the requested ruku from a particular edition
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎
+‎Optional Parameters:
+‎offset - Offset ayahs in a ruku by the given number
+‎limit - This is the number of ayahs that the response will be limited to.
+‎http://api.alquran.cloud/v1/ruku/7/en.asad - Returns ruku 7 from Muhammad Asad's translation of the Holy Quran
+‎http://api.alquran.cloud/v1/ruku/7/quran-uthmani - Returns the text of ruku 7 of the Holy Quran
+‎http://api.alquran.cloud/v1/ruku/7/quran-uthmani?offset=3&limit=3 - Returns the the ayahs 4-6 from ruku 7
+‎
+‎---------------
+‎
+‎
+‎GET Hizb Quarter - Get a Hizb Quarter of the Quran
+‎The Quran comprises 240 Hizb Quarters. One Hizb is half a Juz.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/hizbQuarter/{{hizb}}/{{edition}}
+‎Returns the requested Hizb Quarter from a particular edition
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎
+‎Optional Parameters:
+‎offset - Offset ayahs in a hizb quarter by the given number
+‎limit - This is the number of ayahs that the response will be limited to.
+‎http://api.alquran.cloud/v1/hizbQuarter/1/en.asad - Returns hizb quarter 1 from Muhammad Asad's translation of the Holy Quran
+‎http://api.alquran.cloud/v1/hizbQuarter/1/quran-uthmani - Returns the text of hizb quarater 1 of the Holy Quran
+‎http://api.alquran.cloud/v1/hizbQuarter/1/quran-uthmani?offset=2&limit=2 - Returns the the ayahs 3-4 from hizb Quarter 1
+‎
+‎---------------
+‎
+‎GET Sajda - Get all verses requiring Sajda / Prostration in the Quran
+‎Depending on the madhab, there can be 14, 15 or 16 sajdas. This API has 15.
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/sajda/{{edition}}
+‎Returns all the sajda ayahs from a particular edition
+‎{{edition}} is an edition identifier. Example: en.asad for Muhammad Asad's english translation
+‎
+‎http://api.alquran.cloud/v1/sajda/en.asad - Returns sajda ayahs from Muhammad Asad's translation of the Holy Quran
+‎http://api.alquran.cloud/v1/sajda/quran-uthmani - Returns the text of sajda ayahs of the Holy Quran
+‎
+‎---------------
+‎
+‎GET Meta - Get meta data about Surahs, Pages, Hizbs and Juzs
+‎
+‎Endpoint
+‎Description
+‎Example
+‎
+‎1. http://api.alquran.cloud/v1/meta
+‎Returns all the meta data about the Qur'an available in this API
+‎
+‎http://api.alquran.cloud/v1/meta
+‎
+‎---------------
+‎
+‎
+‎
